@@ -1,43 +1,31 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { AppContext } from '../context/AppContext';
 
 const WorkoutScreen = ({ navigation }) => {
+  const { workoutCount, setWorkoutCount, resetWorkoutCount } = useContext(AppContext);
+
   return (
-   <View style={styles.container}>
-         <Text style={styles.title}>Here are your workouts</Text>
-         <TouchableOpacity 
-           style={styles.button} 
-           onPress={() => navigation.navigate('Profile')}
-         >
-           <Text style={styles.buttonText}>Go to Workouts</Text>
-         </TouchableOpacity>
-       </View>
+    <View style={styles.container}>
+      <Text style={styles.title}>{`Workouts Completed: ${workoutCount}`}</Text>
+      <Button title="Complete a Workout" onPress={() => setWorkoutCount(workoutCount + 1)} />
+      <Button title="Reset Workouts" onPress={() => resetWorkoutCount()} />
+      <Button title="Go to Profile" onPress={() => navigation.navigate('Profile')} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1, 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      backgroundColor: '#f5f5f5'
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20
-    },
-    button: {
-      backgroundColor: '#ff5733',
-      padding: 15,
-      borderRadius: 10,
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold'
-    }
-  });
-  
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+});
 
 export default WorkoutScreen;

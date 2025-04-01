@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { AppProvider } from './context/AppContext';
 
 // Import Screens
 import HomeScreen from './screens/homeScreen';
@@ -36,10 +38,12 @@ function MainTabs() {
 
 export default function App() {
   return (
+    <AppProvider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={MainTabs} />
       </Stack.Navigator>
     </NavigationContainer>
+    </AppProvider>
   );
 }
