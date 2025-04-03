@@ -11,7 +11,6 @@ import HomeScreen from './screens/homeScreen';
 import WorkoutScreen from './screens/workoutScreen';
 import ProfileScreen from './screens/profileScreen';
 
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
