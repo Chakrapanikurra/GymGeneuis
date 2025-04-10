@@ -9,7 +9,11 @@ import {
   ScrollView
 } from 'react-native';
 import { AppContext } from '../context/AppContext';
-import { askOpenAI } from '../utils/openai';
+import { Configuration, OpenAIApi, askOpenAI } from '../utils/openai';
+import { OPENAI_API_KEY } from '@env';
+
+console.log(OPENAI_API_KEY);
+
 
 const WorkoutScreen = ({ navigation }) => {
   const { workoutCount, setWorkoutCount, resetWorkoutCount } = useContext(AppContext);

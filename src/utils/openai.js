@@ -1,6 +1,10 @@
 import axios from 'axios';
+import { Configuration, OpenAIApi } from 'openai';
+import { OPENAI_API_KEY } from '@env';
 
-// const API_KEY = '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'; 
+const configuration = new Configuration({
+  apiKey: OPENAI_API_KEY,
+});
 
 export const askOpenAI = async (prompt) => {
   try {
