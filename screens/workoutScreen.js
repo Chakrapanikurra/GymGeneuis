@@ -1,44 +1,74 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useContext, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Button,
+  ScrollView
+} from 'react-native';
 import { AppContext } from '../context/AppContext';
+import { askOpenAI } from '../utils/openai';
 
 const WorkoutScreen = ({ navigation }) => {
   const { workoutCount, setWorkoutCount, resetWorkoutCount } = useContext(AppContext);
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
+
+  const handleAsk = async () => {
+    try {
+      const result = await askOpenAI(question);
+      setResponse(result);
+    } catch (error) {
+      setResponse('Something went wrong!');
+    }
+  };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{`Workouts Completed: ${workoutCount}`}</Text>
 
-      <TouchableOpacity 
-        style={styles.button} 
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => setWorkoutCount(workoutCount + 1)}
       >
         <Text style={styles.buttonText}>Complete a Workout</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={[styles.button, styles.resetButton]} 
-        onPress={() => resetWorkoutCount()}
+      <TouchableOpacity
+        style={[styles.button, styles.resetButton]}
+        onPress={resetWorkoutCount}
       >
         <Text style={styles.buttonText}>Reset Workouts</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={[styles.button, styles.profileButton]} 
+      <TouchableOpacity
+        style={[styles.button, styles.profileButton]}
         onPress={() => navigation.navigate('Profile')}
       >
         <Text style={styles.buttonText}>Go to Profile</Text>
       </TouchableOpacity>
-    </View>
+
+      <TextInput
+        placeholder="Ask a workout question"
+        value={question}
+        onChangeText={setQuestion}
+        style={styles.input}
+      />
+      <Button title="Ask AI" onPress={handleAsk} />
+
+      <Text style={styles.output}>{response}</Text>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    padding: 20,
+    paddingTop: 60,
+    backgroundColor: '#f5f5f5',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5'
   },
   title: {
     fontSize: 22,
@@ -50,19 +80,31 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginVertical: 10,
-    width: '80%',
+    width: '100%',
     alignItems: 'center'
   },
   resetButton: {
-    backgroundColor: '#333'  // Darker color for reset
+    backgroundColor: '#333'
   },
   profileButton: {
-    backgroundColor: '#1e90ff' // Blue for navigation
+    backgroundColor: '#1e90ff'
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  input: {
+    width: '100%',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 30,
+    borderRadius: 8
+  },
+  output: {
+    marginTop: 20,
+    fontSize: 16
   }
 });
 
